@@ -1,0 +1,47 @@
+apply plugin: 'java'
+apply plugin: 'findbugs'
+apply plugin: 'eclipse'
+
+defaultTasks 'build'
+
+version="1.0.0-SNAPSHOT"
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+
+  findbugs 'com.google.code.findbugs:findbugs:2.0.0'
+  
+  compile (
+  	['com.google.code.findbugs:jsr305:2.0.1'],
+  	['com.basho.riak:riak-client:1.0.6'],
+  	['com.google.guava:guava:14.0-rc1'],
+  	['com.google.inject:guice:3.0'],
+  	['com.google.inject.extensions:guice-assistedinject:3.0'],
+  	['org.codehaus.jackson:jackson-core-asl:1.9.10'],
+    ['org.codehaus.jackson:jackson-mapper-asl:1.9.10'],
+  )
+  
+  testCompile (
+    ['junit:junit:4.11'],
+    ['org.mockito:mockito-all:1.9.5'],
+  )
+}
+
+findbugs {
+  ignoreFailures = true
+}
+
+javadoc {
+  title = "Java CRDT Library"
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.3'
+}
+
+test {
+  include '**/com/ecovate/crdt/AllStaticTests.class'
+}
