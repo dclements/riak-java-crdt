@@ -2,7 +2,6 @@ package com.readytalk.crdt.counters;
 
 import java.math.BigInteger;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
