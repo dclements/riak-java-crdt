@@ -15,12 +15,17 @@ repositories {
 }
 
 dependencies {
-  checkstyle 'com.puppycrawl.tools:checkstyle:5.5'
 
   findbugs 'com.google.code.findbugs:findbugs:2.0.0'
   
   compile (
-  	['com.google.code.findbugs:jsr305:2.0.1']
+  	['com.google.code.findbugs:jsr305:2.0.1'],
+  	['com.basho.riak:riak-client:1.0.6'],
+  	['com.google.guava:guava:13.0.1'],
+  	['com.google.inject:guice:3.0'],
+  	['com.google.inject.extensions:guice-assistedinject:3.0'],
+  	['org.codehaus.jackson:jackson-core-asl:1.9.10'],
+    ['org.codehaus.jackson:jackson-mapper-asl:1.9.10'],
   )
   
   testCompile (
@@ -42,5 +47,5 @@ task wrapper(type: Wrapper) {
 }
 
 test {
-  include '**/com/ecovate/server/db/AllTests.class'
+  include '**/com/ecovate/crdt/AllTests.class'
 }
