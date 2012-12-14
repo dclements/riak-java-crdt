@@ -24,16 +24,18 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 	private final ObjectMapper serializer;
 	
 	@AssistedInject
-	public GSet(ObjectMapper mapper) {
+	public GSet(final ObjectMapper mapper) {
 		serializer = mapper;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@AssistedInject
-	public GSet(ObjectMapper mapper, byte [] payload) {
+	public GSet(final ObjectMapper mapper, final byte [] payload) {
 		serializer = mapper;
 		
-		TypeReference<List<E>> ref = new TypeReference<List<E>>() {};
+		TypeReference<List<E>> ref = new TypeReference<List<E>>() {
+			
+		};
 		
 		try {
 			delegate.addAll((List<E>)serializer.readValue(payload, ref));
@@ -43,7 +45,7 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 		
 	}
 	
-	private GSet(ObjectMapper mapper, Set<E> set) {
+	private GSet(final ObjectMapper mapper, final Set<E> set) {
 		serializer = mapper;
 		
 		delegate.addAll(set);
@@ -66,22 +68,22 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 	}
 
 	@Override
-	public boolean remove(Object o) {
+	public boolean remove(final Object o) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> c) {
+	public boolean removeAll(final Collection<?> c) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> c) {
+	public boolean retainAll(final Collection<?> c) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public GSet<E> merge(GSet<E> other) {
+	public GSet<E> merge(final GSet<E> other) {
 		Set<E> retval = Sets.newLinkedHashSet();
 		
 		retval.addAll(delegate);

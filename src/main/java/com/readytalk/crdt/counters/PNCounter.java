@@ -15,55 +15,58 @@ import com.readytalk.crdt.AbstractCRDT;
 import com.readytalk.crdt.inject.ClientId;
 
 public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CRDTCounter<BigInteger, PNCounter> {
-	
+
 	private final GCounter positive;
 	private final GCounter negative;
 
 	private final String clientId;
 
 	@AssistedInject
-	public PNCounter(ObjectMapper mapper, @ClientId String clientId) {
+	public PNCounter(final ObjectMapper mapper, @ClientId final String client) {
 		super(mapper);
 
-		positive = new GCounter(mapper, clientId);
-		negative = new GCounter(mapper, clientId);
+		this.clientId = client;
 
-		this.clientId = clientId;
+		positive = new GCounter(mapper, client);
+		negative = new GCounter(mapper, client);
+
 	}
 
 	@AssistedInject
-	public PNCounter(ObjectMapper mapper, @ClientId String clientId, @Assisted byte[] payload) {
+	public PNCounter(final ObjectMapper mapper, @ClientId final String client, @Assisted final byte[] value) {
 		super(mapper);
-		
-		this.clientId = clientId;
-		
+
+		this.clientId = client;
+
 		try {
-			TypeReference<Map<String, JsonNode>> ref = new TypeReference<Map<String, JsonNode>>() {};
-			
-			JsonNode node = mapper.readTree(payload);
-			
+			TypeReference<Map<String, JsonNode>> ref = new TypeReference<Map<String, JsonNode>>() {
+				
+			};
+
+			JsonNode node = mapper.readTree(value);
+
 			Map<String, JsonNode> retval = mapper.readValue(node, ref);
-			
-			positive = new GCounter(mapper, clientId, mapper.writeValueAsBytes(retval.get("p")));
-			negative = new GCounter(mapper, clientId, mapper.writeValueAsBytes(retval.get("n")));
-			
+
+			positive = new GCounter(mapper, client, mapper.writeValueAsBytes(retval.get("p")));
+			negative = new GCounter(mapper, client, mapper.writeValueAsBytes(retval.get("n")));
+
 		} catch (IOException ioe) {
 			throw new IllegalArgumentException("Invalid JSON", ioe);
 		}
-		
+
 	}
 
-	private PNCounter(ObjectMapper mapper, @ClientId String clientId, GCounter p, GCounter n) {
+	private PNCounter(final ObjectMapper mapper, @ClientId final String client, final GCounter p, final GCounter n) {
 		super(mapper);
 
 		positive = p;
 		negative = n;
 
-		this.clientId = clientId;
+		this.clientId = client;
 	}
 
 	@Override
-	public PNCounter merge(PNCounter other) {
+	public PNCounter merge(final PNCounter other) {
 		return new PNCounter(serializer(), clientId, positive.merge(other.positive), negative.merge(other.negative));
 	}
 
@@ -71,16 +74,15 @@ public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CR
 	public BigInteger value() {
 		return this.positive.value().subtract(this.negative.value());
 	}
-	
-	
+
 	@Override
 	public byte[] payload() {
 		try {
 			Map<String, JsonNode> retval = Maps.newHashMap();
-			
+
 			retval.put("p", serializer().readTree(positive.payload()));
 			retval.put("n", serializer().readTree(negative.payload()));
-			
+
 			return serializer().writeValueAsBytes(retval);
 		} catch (IOException ioe) {
 			throw new IllegalStateException("Could not serialize.", ioe);
@@ -98,22 +100,22 @@ public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CR
 
 		return this.value();
 	}
-	
+
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (!(o instanceof PNCounter)) {
 			return false;
 		}
-		
-		PNCounter t = (PNCounter)o;
-		
+
+		PNCounter t = (PNCounter) o;
+
 		if (this == t) {
 			return true;
 		} else {
 			return this.value().equals(t.value());
 		}
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return this.value().hashCode();
