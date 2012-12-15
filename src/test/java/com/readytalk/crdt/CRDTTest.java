@@ -29,6 +29,7 @@ public abstract class CRDTTest<S, R extends CRDT<S, R>> {
 
 	@Test
 	public void mergerWithSelfIsEqual() {
+		assertNotNull(firstOrtho().value());
 		assertEquals(firstOrtho().value(), firstOrtho().merge(firstOrtho()).value());
 	}
 

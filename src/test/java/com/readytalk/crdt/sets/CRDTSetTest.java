@@ -32,6 +32,12 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		assertFalse(secondOrtho().isEmpty());
 		assertFalse(firstOrtho().value().equals(secondOrtho().value()));
 	}
+	
+	@Test
+	public void addReturnsAbsence() {
+		assertTrue(defaultCRDT().add(obj1));
+		assertFalse(defaultCRDT().add(obj1));
+	}
 
 	@Test
 	public void addToSetFunctions() {
