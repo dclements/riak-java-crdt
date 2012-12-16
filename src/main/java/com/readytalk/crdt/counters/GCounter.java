@@ -15,6 +15,10 @@ import com.google.inject.assistedinject.AssistedInject;
 import com.readytalk.crdt.AbstractCRDT;
 import com.readytalk.crdt.inject.ClientId;
 
+/**
+ * Grow-only counter.  Does not support decrementing.
+ *
+ */
 public class GCounter extends AbstractCRDT<BigInteger, GCounter> implements CRDTCounter<BigInteger, GCounter> {
 
 	private final String clientId;
@@ -26,7 +30,7 @@ public class GCounter extends AbstractCRDT<BigInteger, GCounter> implements CRDT
 		super(mapper);
 
 		clientId = client;
-
+		
 		payload.put(clientId, BigInteger.ZERO);
 	}
 

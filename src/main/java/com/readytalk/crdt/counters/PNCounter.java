@@ -14,6 +14,10 @@ import com.google.inject.assistedinject.AssistedInject;
 import com.readytalk.crdt.AbstractCRDT;
 import com.readytalk.crdt.inject.ClientId;
 
+/**
+ * Counter that supports both positive and negative operations.
+ *
+ */
 public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CRDTCounter<BigInteger, PNCounter> {
 
 	private final GCounter positive;

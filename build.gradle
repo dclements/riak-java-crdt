@@ -47,5 +47,5 @@ task wrapper(type: Wrapper) {
 }
 
 test {
-  include '**/com/ecovate/crdt/AllTests.class'
+  include '**/com/ecovate/crdt/AllStaticTests.class'
 }

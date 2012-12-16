@@ -4,6 +4,11 @@ import java.util.Set;
 
 import com.readytalk.crdt.CRDT;
 
-public interface CRDTSet<E, S extends Set<E>, R extends CRDTSet<E, S, R>> extends CRDT<S, R>, Set<E> {
-	
+/**
+ * Reconciliation of the java.util.Set and the CRDT Set. Will try to keep to the
+ * java standard set implementation where possible.
+ */
+public interface CRDTSet<E, S extends Set<E>, R extends CRDTSet<E, S, R>>
+		extends CRDT<S, R>, Set<E> {
+
 }

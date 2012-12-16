@@ -16,11 +16,19 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.assistedinject.AssistedInject;
 
+/**
+ * Supports both add and remove operations, but only allows for a single remove.
+ * 
+ */
 public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E>> {
 
 	private final ObjectMapper serializer;
 	private final GSet<E> adds;
 	private final GSet<E> removals;
+	
+	private final TypeReference<Map<String, JsonNode>> ref = new TypeReference<Map<String, JsonNode>>() {
+		
+	};
 	
 	@AssistedInject
 	public TwoPhaseSet(final ObjectMapper mapper) {
@@ -34,10 +42,6 @@ public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E
 		serializer = mapper;
 		
 		try {
-			TypeReference<Map<String, JsonNode>> ref = new TypeReference<Map<String, JsonNode>>() {
-				
-			};
-
 			JsonNode node = mapper.readTree(value);
 
 			Map<String, JsonNode> retval = mapper.readValue(node, ref);

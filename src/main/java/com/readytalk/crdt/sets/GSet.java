@@ -16,12 +16,16 @@ import com.google.common.collect.Sets;
 import com.google.inject.assistedinject.AssistedInject;
 
 /**
- * Grow-only Sets. 
+ * Grow-only Sets.  Do not implement the remove operations. 
  */
 public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet<E>, GSet<E>> {
 	private final Set<E> delegate = Sets.newLinkedHashSet();
 	
 	private final ObjectMapper serializer;
+	
+	TypeReference<List<E>> ref = new TypeReference<List<E>>() {
+		
+	};
 	
 	@AssistedInject
 	public GSet(final ObjectMapper mapper) {
@@ -32,10 +36,6 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 	@AssistedInject
 	public GSet(final ObjectMapper mapper, final byte [] payload) {
 		serializer = mapper;
-		
-		TypeReference<List<E>> ref = new TypeReference<List<E>>() {
-			
-		};
 		
 		try {
 			delegate.addAll((List<E>)serializer.readValue(payload, ref));
