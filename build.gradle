@@ -3,9 +3,22 @@ apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.mapvine:gradle-cobertura-plugin:1.0'
+    }
+}
+
+apply plugin: 'cobertura'
+
 defaultTasks 'build'
 
 version="1.0.0-SNAPSHOT"
+
+
 
 repositories {
   mavenCentral()
@@ -15,6 +28,8 @@ dependencies {
 
   findbugs 'com.google.code.findbugs:findbugs:2.0.1'
   checkstyle 'com.puppycrawl.tools:checkstyle:5.6'
+  
+  cobertura 'com.mapvine:gradle-cobertura-plugin:1.0'
   
   compile (
   	['com.google.code.findbugs:jsr305:2.0.1'],
@@ -30,6 +45,16 @@ dependencies {
     ['junit:junit:4.11'],
     ['org.mockito:mockito-all:1.9.5'],
   )
+}
+
+
+tasks.withType(Compile) { 
+  options.compilerArgs << "-Xlint" 
+}
+
+cobertura {
+    format = 'html'
+    includes = ['**/*.java']
 }
 
 findbugs {
@@ -49,5 +74,5 @@ task wrapper(type: Wrapper) {
 }
 
 test {
-  include '**/com/ecovate/crdt/AllStaticTests.class'
+  include '**/com/readytalk/crdt/AllStaticTests.class'
 }
