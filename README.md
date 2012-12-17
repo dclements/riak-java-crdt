@@ -11,8 +11,7 @@ Features
 
 Future Work
 ===========
-* Factories. 
-* Tools for specifically working with Riak.
+* Tools for specifically working with Riak.  
 * More basic types (e.g., ORSets).
 * Derived types for collecting more specific types of information (e.g., statistics). 
 * Better [Jackson](http://jackson.codehaus.org) use and integration. 

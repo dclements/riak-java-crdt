@@ -1,12 +1,12 @@
-package com.readytalk.crdt.counters;
+package com.readytalk.crdt.riak;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ GCounterTest.class, GCounterFactoryTest.class,
-		PNCounterTest.class, PNCounterFactoryTest.class })
+@SuiteClasses({ CRDTConflictResolverTest.class, CRDTMutationProducerTest.class,
+		CRDTMutationTest.class })
 public class AllTests {
 
 }
