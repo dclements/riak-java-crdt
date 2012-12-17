@@ -74,6 +74,7 @@ task wrapper(type: Wrapper) {
 }
 
 test {
-  testLogging.showStandardStreams = true
+  //Here due to an issue with jackson 1.9.10 and jre7.
+  jvmArgs "-XX:-UseSplitVerifier"
   include '**/com/readytalk/crdt/AllStaticTests.class'
 }
