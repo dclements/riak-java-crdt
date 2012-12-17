@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -14,7 +16,6 @@ import org.codehaus.jackson.type.TypeReference;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Supports both add and remove operations, but only allows for a single remove.
@@ -33,14 +34,13 @@ public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E
 		
 	};
 	
-	@AssistedInject
+	@Inject
 	public TwoPhaseSet(final ObjectMapper mapper) {
 		serializer = mapper;
 		adds = new GSet<E>(mapper);
 		removals = new GSet<E>(mapper);
 	}
 	
-	@AssistedInject
 	public TwoPhaseSet(final ObjectMapper mapper, final byte [] value) {
 		serializer = mapper;
 		

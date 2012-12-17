@@ -4,11 +4,13 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 import com.basho.riak.client.cap.ConflictResolver;
-import com.google.inject.Inject;
+import com.google.common.annotations.Beta;
 import com.readytalk.crdt.CRDT;
 
+@Beta
 public class CRDTConflictResolver<T extends CRDT<?, T>> implements ConflictResolver<T> {
 	
 	@Inject

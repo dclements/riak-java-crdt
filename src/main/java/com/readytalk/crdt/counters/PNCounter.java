@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.Map;
 
 import javax.annotation.Nonnegative;
+import javax.inject.Inject;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -12,8 +13,6 @@ import org.codehaus.jackson.type.TypeReference;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import com.readytalk.crdt.AbstractCRDT;
 import com.readytalk.crdt.inject.ClientId;
 
@@ -30,7 +29,7 @@ public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CR
 
 	private final String clientId;
 
-	@AssistedInject
+	@Inject
 	public PNCounter(final ObjectMapper mapper, @ClientId final String client) {
 		super(mapper);
 
@@ -41,8 +40,7 @@ public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CR
 
 	}
 
-	@AssistedInject
-	public PNCounter(final ObjectMapper mapper, @ClientId final String client, @Assisted final byte[] value) {
+	public PNCounter(final ObjectMapper mapper, @ClientId final String client, final byte[] value) {
 		super(mapper);
 
 		this.clientId = client;
