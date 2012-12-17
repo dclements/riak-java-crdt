@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 
 defaultTasks 'build'
@@ -12,7 +13,8 @@ repositories {
 
 dependencies {
 
-  findbugs 'com.google.code.findbugs:findbugs:2.0.0'
+  findbugs 'com.google.code.findbugs:findbugs:2.0.1'
+  checkstyle 'com.puppycrawl.tools:checkstyle:5.6'
   
   compile (
   	['com.google.code.findbugs:jsr305:2.0.1'],
@@ -32,6 +34,10 @@ dependencies {
 
 findbugs {
   ignoreFailures = true
+}
+
+checkstyle {
+  sourceSets = [sourceSets.main]
 }
 
 javadoc {

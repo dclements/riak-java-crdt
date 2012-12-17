@@ -21,69 +21,73 @@ import com.google.common.collect.Sets;
  * Supports both add and remove operations, but only allows for a single remove.
  * 
  */
-public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E>> {
-	
+public class TwoPhaseSet<E> implements
+		CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E>> {
+
 	private static final String ADD_TOKEN = "a";
 	private static final String REMOVE_TOKEN = "r";
-	
+
 	private final ObjectMapper serializer;
 	private final GSet<E> adds;
 	private final GSet<E> removals;
-	
+
 	private final TypeReference<Map<String, JsonNode>> ref = new TypeReference<Map<String, JsonNode>>() {
-		
+
 	};
-	
+
 	@Inject
 	public TwoPhaseSet(final ObjectMapper mapper) {
 		serializer = mapper;
 		adds = new GSet<E>(mapper);
 		removals = new GSet<E>(mapper);
 	}
-	
-	public TwoPhaseSet(final ObjectMapper mapper, final byte [] value) {
+
+	public TwoPhaseSet(final ObjectMapper mapper, final byte[] value) {
 		serializer = mapper;
-		
+
 		try {
 			JsonNode node = mapper.readTree(value);
 
 			Map<String, JsonNode> retval = mapper.readValue(node, ref);
 
-			adds = new GSet<E>(mapper, mapper.writeValueAsBytes(retval.get(ADD_TOKEN)));
-			removals = new GSet<E>(mapper, mapper.writeValueAsBytes(retval.get(REMOVE_TOKEN)));
+			adds = new GSet<E>(mapper, mapper.writeValueAsBytes(retval
+					.get(ADD_TOKEN)));
+			removals = new GSet<E>(mapper, mapper.writeValueAsBytes(retval
+					.get(REMOVE_TOKEN)));
 
 		} catch (IOException ioe) {
 			throw new IllegalArgumentException("Invalid JSON.", ioe);
 		}
 	}
-	
-	private TwoPhaseSet(final ObjectMapper mapper, final GSet<E> adds, final GSet<E> removals) {
+
+	private TwoPhaseSet(final ObjectMapper mapper, final GSet<E> adds,
+			final GSet<E> removals) {
 		serializer = mapper;
 		this.adds = adds;
 		this.removals = removals;
 	}
-	
+
 	@Override
 	public final TwoPhaseSet<E> merge(final TwoPhaseSet<E> other) {
 		GSet<E> a = new GSet<E>(serializer);
-		GSet<E> r  = new GSet<E>(serializer);
-		
+		GSet<E> r = new GSet<E>(serializer);
+
 		a.addAll(adds);
 		r.addAll(removals);
-		
+
 		a.addAll(other.adds);
 		r.addAll(other.removals);
-		
+
 		return new TwoPhaseSet<E>(serializer, a, r);
 	}
 
 	@Override
 	public final ImmutableSet<E> value() {
 		Set<E> retval = Sets.newHashSet();
-		
+
 		retval.addAll(adds);
 		retval.removeAll(removals);
-		
+
 		return ImmutableSet.copyOf(retval);
 	}
 
@@ -104,8 +108,9 @@ public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E
 
 	@Override
 	public final boolean add(final E obj) {
-		if(removals.contains(obj)) {
-			throw new IllegalArgumentException("Cannot add to a group that has had the value removed.");
+		if (removals.contains(obj)) {
+			throw new IllegalArgumentException(
+					"Cannot add to a group that has had the value removed.");
 		}
 		return adds.add(obj);
 	}
@@ -113,18 +118,19 @@ public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E
 	@Override
 	public final boolean addAll(final Collection<? extends E> col) {
 		Set<E> s = Sets.intersection(removals, Sets.newHashSet(col));
-		
+
 		if (s.size() > 0) {
-			throw new IllegalArgumentException(String.format("%d Elements have already been removed.", s.size()));
+			throw new IllegalArgumentException(String.format(
+					"%d Elements have already been removed.", s.size()));
 		}
-		
+
 		return adds.addAll(col);
 	}
 
 	@Override
 	public final void clear() {
 		removals.addAll(adds);
-		
+
 	}
 
 	@Override
@@ -150,21 +156,21 @@ public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public final boolean  remove(final Object obj) {
+	public final boolean remove(final Object obj) {
 		if (removals.contains(obj) || !adds.contains(obj)) {
 			return false;
 		}
-		
-		removals.add((E)obj);
-		
+
+		removals.add((E) obj);
+
 		return true;
 	}
 
 	@Override
 	public final boolean removeAll(final Collection<?> col) {
-		
+
 		boolean retval = this.value().containsAll(col);
-		
+
 		for (Object o : col) {
 			this.remove(o);
 		}
@@ -190,7 +196,7 @@ public class TwoPhaseSet<E> implements CRDTSet<E, ImmutableSet<E>, TwoPhaseSet<E
 	public final <T> T[] toArray(final T[] arg) {
 		return this.value().toArray(arg);
 	}
-	
+
 	@Override
 	public final boolean equals(final Object o) {
 		if (!(o instanceof TwoPhaseSet)) {

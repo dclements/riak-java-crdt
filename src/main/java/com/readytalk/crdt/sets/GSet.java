@@ -24,7 +24,7 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 	
 	private final ObjectMapper serializer;
 	
-	TypeReference<List<E>> ref = new TypeReference<List<E>>() {
+	private final TypeReference<List<E>> ref = new TypeReference<List<E>>() {
 		
 	};
 	

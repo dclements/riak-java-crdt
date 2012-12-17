@@ -14,12 +14,12 @@ public class CRDTMutation<T extends CRDT<?, T>> implements Mutation<T> {
 
 	private T newCRDT;
 	
-	public CRDTMutation(T crdt) {
+	public CRDTMutation(final T crdt) {
 		newCRDT = crdt;
 	}
 	
 	@Override
-	public T apply(@Nullable T original) {
+	public T apply(@Nullable final T original) {
 		
 		if (original == null) {
 			return newCRDT;
