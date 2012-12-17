@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -13,7 +15,6 @@ import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
-import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Grow-only Sets.  Do not implement the remove operations. 
@@ -27,13 +28,12 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 		
 	};
 	
-	@AssistedInject
+	@Inject
 	public GSet(final ObjectMapper mapper) {
 		serializer = mapper;
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AssistedInject
 	public GSet(final ObjectMapper mapper, final byte [] payload) {
 		serializer = mapper;
 		

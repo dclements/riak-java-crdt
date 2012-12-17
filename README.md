@@ -1,18 +1,22 @@
 Java CRDT Library
 =========
 
-A collection of basic conflict-free replicated data types (CRDTs).  Currently everything is set up to serialize into JSON objects.  It is designed to be used with [Guice assisted injections](http://code.google.com/p/google-guice/wiki/AssistedInject), but will work without it.
+A collection of basic conflict-free replicated data types (CRDTs).  Currently everything is set up to serialize into JSON objects.
 
+Features
+========
+* Support for GSets, 2PSets, GCounters, PNCounters.
+* Single interface and utilities for working with CRDTs.
+* JSR 330 annotations for dependency injection.
 
 Future Work
 ===========
-* Factories. 
-* Tools for specifically working with Riak.
+* Tools for specifically working with Riak.  
 * More basic types (e.g., ORSets).
+* Derived types for collecting more specific types of information (e.g., statistics). 
 * Better [Jackson](http://jackson.codehaus.org) use and integration. 
 * Checkstyle and Eclipse style configuration. 
 * Support for other serialization strategies.
-
 
 Based On
 =======

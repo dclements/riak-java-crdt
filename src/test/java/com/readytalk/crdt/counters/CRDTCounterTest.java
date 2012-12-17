@@ -11,6 +11,8 @@ import org.junit.rules.ExpectedException;
 
 import com.readytalk.crdt.CRDTTest;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public abstract class CRDTCounterTest<S extends Number, R extends CRDTCounter<S, R>> extends CRDTTest<S, R> {
 	
 	@Rule
@@ -148,6 +150,7 @@ public abstract class CRDTCounterTest<S extends Number, R extends CRDTCounter<S,
 	}
 	
 	@Test
+	@SuppressFBWarnings("TQ_NEVER_VALUE_USED_WHERE_ALWAYS_REQUIRED")
 	public void incrementNegativeNThrowsException() {
 		thrown.expect(IllegalArgumentException.class);
 		
@@ -155,6 +158,7 @@ public abstract class CRDTCounterTest<S extends Number, R extends CRDTCounter<S,
 	}
 	
 	@Test
+	@SuppressFBWarnings("TQ_NEVER_VALUE_USED_WHERE_ALWAYS_REQUIRED")
 	public void decrementNegativeThrowsException() {
 		try {
 			defaultCRDT().decrement(-1);

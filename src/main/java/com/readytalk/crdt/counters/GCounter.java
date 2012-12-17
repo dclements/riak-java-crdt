@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.Map;
 
 import javax.annotation.Nonnegative;
+import javax.inject.Inject;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonView;
@@ -13,8 +14,6 @@ import org.codehaus.jackson.type.TypeReference;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import com.readytalk.crdt.AbstractCRDT;
 import com.readytalk.crdt.inject.ClientId;
 
@@ -28,7 +27,7 @@ public class GCounter extends AbstractCRDT<BigInteger, GCounter> implements CRDT
 
 	private final Map<String, BigInteger> payload = Maps.newHashMap();
 
-	@AssistedInject
+	@Inject
 	public GCounter(final ObjectMapper mapper, @ClientId final String client) {
 		super(mapper);
 
@@ -38,8 +37,7 @@ public class GCounter extends AbstractCRDT<BigInteger, GCounter> implements CRDT
 	}
 
 	@SuppressWarnings("unchecked")
-	@AssistedInject
-	public GCounter(final ObjectMapper mapper, @ClientId final String client, @Assisted final byte[] value) {
+	public GCounter(final ObjectMapper mapper, @ClientId final String client, final byte[] value) {
 		this(mapper, client);
 
 		TypeReference<Map<String, BigInteger>> ref = new TypeReference<Map<String, BigInteger>>() {
