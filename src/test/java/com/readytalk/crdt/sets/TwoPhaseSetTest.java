@@ -25,12 +25,12 @@ public class TwoPhaseSetTest extends CRDTSetTest<ImmutableSet<String>, TwoPhaseS
 		
 		set1 = new TwoPhaseSet<String>(mapper);
 		
-		set1.add(obj1);
+		set1.add(OBJ_1);
 		
 		set2 = new TwoPhaseSet<String>(mapper);
 		
-		set2.add(obj2);
-		set2.add(obj3);
+		set2.add(OBJ_2);
+		set2.add(OBJ_3);
 		
 		set12 = set1.merge(set2);
 	}
@@ -69,18 +69,18 @@ public class TwoPhaseSetTest extends CRDTSetTest<ImmutableSet<String>, TwoPhaseS
 	public void addingRemovedThrowsIllegalArgument() {
 		thrown.expect(IllegalArgumentException.class);
 		
-		set1.remove(obj1);
+		set1.remove(OBJ_1);
 		
-		set1.add(obj1);
+		set1.add(OBJ_1);
 	}
 	
 	@Test
 	public void addingAllWithRemovedThrowsIllegalArgument() {
 		thrown.expect(IllegalArgumentException.class);
 		
-		set1.remove(obj1);
+		set1.remove(OBJ_1);
 		
-		set1.addAll(Sets.newHashSet(obj2, obj1));
+		set1.addAll(Sets.newHashSet(OBJ_2, OBJ_1));
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class TwoPhaseSetTest extends CRDTSetTest<ImmutableSet<String>, TwoPhaseS
 		
 		set1.clear();
 		
-		set1.add(obj1);
+		set1.add(OBJ_1);
 	}
 	
 	@Test
@@ -101,7 +101,7 @@ public class TwoPhaseSetTest extends CRDTSetTest<ImmutableSet<String>, TwoPhaseS
 	
 	@Test
 	public void removeIsSupported() {
-		set1.remove(obj1);
+		set1.remove(OBJ_1);
 	}
 
 }

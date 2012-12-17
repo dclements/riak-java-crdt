@@ -13,9 +13,9 @@ import com.readytalk.crdt.CRDTTest;
 
 public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<String, S, R>> extends CRDTTest<S, R> {
 
-	protected final String obj1 = "1";
-	protected final String obj2 = "2";
-	protected final String obj3 = "3";
+	protected static final String OBJ_1 = "1";
+	protected static final String OBJ_2 = "2";
+	protected static final String OBJ_3 = "3";
 	
 	@Before
 	public void setUp() throws Exception {
@@ -35,15 +35,15 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 	
 	@Test
 	public void addReturnsAbsence() {
-		assertTrue(defaultCRDT().add(obj1));
-		assertFalse(defaultCRDT().add(obj1));
+		assertTrue(defaultCRDT().add(OBJ_1));
+		assertFalse(defaultCRDT().add(OBJ_1));
 	}
 
 	@Test
 	public void addToSetFunctions() {
-		defaultCRDT().add(obj1);
+		defaultCRDT().add(OBJ_1);
 
-		assertTrue(defaultCRDT().contains(obj1));
+		assertTrue(defaultCRDT().contains(OBJ_1));
 	}
 
 	@Test
@@ -70,12 +70,12 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 	@Test
 	public void removeShouldRemove() {
 		
-		defaultCRDT().add(obj1);
+		defaultCRDT().add(OBJ_1);
 		
 		try {
-			assertTrue(defaultCRDT().remove(obj1));
+			assertTrue(defaultCRDT().remove(OBJ_1));
 
-			assertFalse(defaultCRDT().contains(obj1));
+			assertFalse(defaultCRDT().contains(OBJ_1));
 		} catch (UnsupportedOperationException ex) {
 			Assume.assumeNoException(ex);
 		}
@@ -85,7 +85,7 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 	public void removeReturnsFalseIfNotPresent() {
 		
 		try {
-			assertFalse(defaultCRDT().remove(obj1));
+			assertFalse(defaultCRDT().remove(OBJ_1));
 		} catch (UnsupportedOperationException ex) {
 			Assume.assumeNoException(ex);
 		}
@@ -129,16 +129,16 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 	
 	@Test
 	public void sizeChanges() {
-		defaultCRDT().add(obj1);
+		defaultCRDT().add(OBJ_1);
 		
 		assertEquals(1, defaultCRDT().size());
 	}
 	
 	@Test
 	public void addAllReturnsExistence() {
-		assertTrue(defaultCRDT().add(obj1));
+		assertTrue(defaultCRDT().add(OBJ_1));
 		
-		assertFalse(defaultCRDT().add(obj1));
+		assertFalse(defaultCRDT().add(OBJ_1));
 	}
 
 

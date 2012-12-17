@@ -8,7 +8,7 @@ import com.readytalk.crdt.CRDTFactoryTest;
 public class TwoPhaseSetFactoryTest extends
 		CRDTFactoryTest<TwoPhaseSet<String>, TwoPhaseSetFactory<String>> {
 
-	private final String ONE = "one";
+	private static final String ONE = "one";
 
 	private TwoPhaseSet<String> set0;
 	private TwoPhaseSet<String> set1;

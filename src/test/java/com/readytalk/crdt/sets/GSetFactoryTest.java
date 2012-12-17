@@ -7,7 +7,7 @@ import com.readytalk.crdt.CRDTFactoryTest;
 
 public class GSetFactoryTest extends
 		CRDTFactoryTest<GSet<String>, GSetFactory<String>> {
-	private final String ONE = "one";
+	private static final String ONE = "one";
 
 	private GSet<String> set0;
 	private GSet<String> set1;

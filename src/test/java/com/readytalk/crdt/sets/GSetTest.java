@@ -26,12 +26,12 @@ public class GSetTest extends CRDTSetTest<ImmutableSet<String>, GSet<String>> {
 		
 		set1 = new GSet<String>(mapper);
 		
-		set1.add(obj1);
+		set1.add(OBJ_1);
 		
 		set2 = new GSet<String>(mapper);
 		
-		set2.add(obj2);
-		set2.add(obj3);
+		set2.add(OBJ_2);
+		set2.add(OBJ_3);
 		
 		set12 = set1.merge(set2);
 	}
@@ -69,7 +69,7 @@ public class GSetTest extends CRDTSetTest<ImmutableSet<String>, GSet<String>> {
 	@Test
 	public void cannotRemove() {
 		thrown.expect(UnsupportedOperationException.class);
-		set1.remove(obj1);
+		set1.remove(OBJ_1);
 	}
 	
 	@Test
