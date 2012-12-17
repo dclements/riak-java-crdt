@@ -11,6 +11,7 @@ Future Work
 * More basic types (e.g., ORSets).
 * Better [Jackson](http://jackson.codehaus.org) use and integration. 
 * Checkstyle and Eclipse style configuration. 
+* Support for other serialization strategies.
 
 
 Based On
