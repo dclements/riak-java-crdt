@@ -74,5 +74,6 @@ task wrapper(type: Wrapper) {
 }
 
 test {
+  testLogging.showStandardStreams = true
   include '**/com/readytalk/crdt/AllStaticTests.class'
 }
