@@ -16,6 +16,7 @@ dependencies {
   
   compile (
   	['com.google.code.findbugs:jsr305:2.0.1'],
+  	['com.google.code.findbugs:annotations:2.0.1'],
   	['com.basho.riak:riak-client:1.0.6'],
   	['com.google.guava:guava:14.0-rc1'],
     ['org.codehaus.jackson:jackson-core-asl:1.9.10'],
