@@ -4,12 +4,12 @@ apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.mapvine:gradle-cobertura-plugin:1.0'
-    }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.mapvine:gradle-cobertura-plugin:1.0'
+  }
 }
 
 apply plugin: 'cobertura'
@@ -17,8 +17,6 @@ apply plugin: 'cobertura'
 defaultTasks 'build'
 
 version="1.0.0-SNAPSHOT"
-
-
 
 repositories {
   mavenCentral()
@@ -32,10 +30,10 @@ dependencies {
   cobertura 'com.mapvine:gradle-cobertura-plugin:1.0'
   
   compile (
-  	['com.google.code.findbugs:jsr305:2.0.1'],
-  	['com.google.code.findbugs:annotations:2.0.1'],
-  	['com.basho.riak:riak-client:1.0.6'],
-  	['com.google.guava:guava:14.0-rc1'],
+    ['com.google.code.findbugs:jsr305:2.0.1'],
+    ['com.google.code.findbugs:annotations:2.0.1'],
+    ['com.basho.riak:riak-client:1.0.6'],
+    ['com.google.guava:guava:14.0-rc1'],
     ['org.codehaus.jackson:jackson-core-asl:1.9.10'],
     ['org.codehaus.jackson:jackson-mapper-asl:1.9.10'],
     ['javax.inject:javax.inject:1'],
@@ -46,7 +44,6 @@ dependencies {
     ['org.mockito:mockito-all:1.9.5'],
   )
 }
-
 
 tasks.withType(Compile) { 
   options.compilerArgs << "-Xlint" 
@@ -76,5 +73,6 @@ task wrapper(type: Wrapper) {
 test {
   //Here due to an issue with jackson 1.9.10 and jre7.
   jvmArgs "-XX:-UseSplitVerifier"
+  
   include '**/com/readytalk/crdt/AllStaticTests.class'
 }
