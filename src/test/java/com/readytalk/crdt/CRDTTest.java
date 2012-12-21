@@ -77,5 +77,10 @@ public abstract class CRDTTest<S, R extends CRDT<S, R>> {
 	public void equalValueSameHashCode() {
 		assertEquals(firstAndSecond().hashCode(), firstOrtho().merge(secondOrtho()).hashCode());
 	}
+	
+	@Test
+	public void directlySerializes() throws Exception {
+		assertNotNull(mapper.writeValueAsString(firstOrtho()));
+	}
 
 }
