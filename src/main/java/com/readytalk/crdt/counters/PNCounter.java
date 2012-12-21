@@ -7,10 +7,9 @@ import java.util.Map;
 import javax.annotation.Nonnegative;
 import javax.inject.Inject;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.readytalk.crdt.AbstractCRDT;
@@ -21,6 +20,11 @@ import com.readytalk.crdt.inject.ClientId;
  *
  */
 public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CRDTCounter<BigInteger, PNCounter> {
+	private static final TypeReference<Map<String, JsonNode>> REF = new TypeReference<Map<String, JsonNode>>() {
+		
+	};
+	
+	
 	private static final String POSITIVE_TOKEN = "p";
 	private static final String NEGATIVE_TOKEN = "n";
 	
@@ -46,13 +50,8 @@ public class PNCounter extends AbstractCRDT<BigInteger, PNCounter> implements CR
 		this.clientId = client;
 
 		try {
-			TypeReference<Map<String, JsonNode>> ref = new TypeReference<Map<String, JsonNode>>() {
-				
-			};
-
-			JsonNode node = mapper.readTree(value);
-
-			Map<String, JsonNode> retval = mapper.readValue(node, ref);
+			
+			Map<String, JsonNode> retval = mapper.readValue(value, REF);
 
 			positive = new GCounter(mapper, client, mapper.writeValueAsBytes(retval.get(POSITIVE_TOKEN)));
 			negative = new GCounter(mapper, client, mapper.writeValueAsBytes(retval.get(NEGATIVE_TOKEN)));

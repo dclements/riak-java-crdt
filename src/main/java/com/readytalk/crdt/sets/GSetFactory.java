@@ -2,8 +2,7 @@ package com.readytalk.crdt.sets;
 
 import javax.inject.Inject;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.readytalk.crdt.CRDTFactory;
 
 public class GSetFactory<E> implements CRDTFactory<GSet<E>> {

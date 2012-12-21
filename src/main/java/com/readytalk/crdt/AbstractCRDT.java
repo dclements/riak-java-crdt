@@ -1,6 +1,6 @@
 package com.readytalk.crdt;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Abstract (state) CRDT representation.

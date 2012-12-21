@@ -6,8 +6,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Ignore;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class CRDTTest<S, R extends CRDT<S, R>> {
 
@@ -76,6 +78,12 @@ public abstract class CRDTTest<S, R extends CRDT<S, R>> {
 	@Test
 	public void equalValueSameHashCode() {
 		assertEquals(firstAndSecond().hashCode(), firstOrtho().merge(secondOrtho()).hashCode());
+	}
+	
+	@Test
+	@Ignore("future")
+	public void directlySerializes() throws Exception {
+		assertNotNull(mapper.writeValueAsString(firstOrtho()));
 	}
 
 }
