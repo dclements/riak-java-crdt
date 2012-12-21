@@ -1,6 +1,9 @@
 package com.readytalk.crdt.sets;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -30,7 +33,7 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		assertTrue(defaultCRDT().isEmpty());
 		assertFalse(firstOrtho().isEmpty());
 		assertFalse(secondOrtho().isEmpty());
-		assertFalse(firstOrtho().value().equals(secondOrtho().value()));
+		assertNotEquals(firstOrtho().value(), secondOrtho().value());
 	}
 	
 	@Test

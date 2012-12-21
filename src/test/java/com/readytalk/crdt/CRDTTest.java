@@ -1,6 +1,10 @@
 package com.readytalk.crdt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -24,7 +28,7 @@ public abstract class CRDTTest<S, R extends CRDT<S, R>> {
 
 	@Test
 	public void secondOrthoCounterDifferent() {
-		assertFalse(secondOrtho().value().equals(firstOrtho().value()));
+		assertNotEquals(secondOrtho().value(), firstOrtho().value());
 	}
 
 	@Test
@@ -66,7 +70,7 @@ public abstract class CRDTTest<S, R extends CRDT<S, R>> {
 
 	@Test
 	public void hashCodeIsDifferent() {
-		assertFalse(defaultCRDT().hashCode() == firstAndSecond().hashCode());
+		assertNotEquals(defaultCRDT().hashCode(), firstAndSecond().hashCode());
 	}
 
 	@Test

@@ -66,4 +66,9 @@ public class PNCounterTest extends CRDTCounterTest<BigInteger, PNCounter> {
 		defaultCRDT().decrement();
 	}
 	
+	@Test
+	public void decrementNDoesNotThrowException() {
+		defaultCRDT().decrement(2);
+	}
+	
 }
