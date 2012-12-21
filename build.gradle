@@ -34,8 +34,9 @@ dependencies {
     ['com.google.code.findbugs:annotations:2.0.1'],
     ['com.basho.riak:riak-client:1.0.6'],
     ['com.google.guava:guava:14.0-rc1'],
-    ['org.codehaus.jackson:jackson-core-asl:1.9.10'],
-    ['org.codehaus.jackson:jackson-mapper-asl:1.9.10'],
+    ['com.fasterxml.jackson.core:jackson-core:2.1.2'],
+    ['com.fasterxml.jackson.core:jackson-databind:2.1.2'],
+    ['com.fasterxml.jackson.core:jackson-annotations:2.1.2'],
     ['javax.inject:javax.inject:1'],
   )
   

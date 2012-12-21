@@ -7,10 +7,8 @@ import java.util.Map;
 import javax.annotation.Nonnegative;
 import javax.inject.Inject;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonView;
-import org.codehaus.jackson.type.TypeReference;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -22,7 +20,11 @@ import com.readytalk.crdt.inject.ClientId;
  *
  */
 public class GCounter extends AbstractCRDT<BigInteger, GCounter> implements CRDTCounter<BigInteger, GCounter> {
+	
+	private static final TypeReference<Map<String, BigInteger>> REF = new TypeReference<Map<String, BigInteger>>() {
 
+	};
+	
 	private final String clientId;
 
 	private final Map<String, BigInteger> payload = Maps.newHashMap();
@@ -40,12 +42,10 @@ public class GCounter extends AbstractCRDT<BigInteger, GCounter> implements CRDT
 	public GCounter(final ObjectMapper mapper, @ClientId final String client, final byte[] value) {
 		this(mapper, client);
 
-		TypeReference<Map<String, BigInteger>> ref = new TypeReference<Map<String, BigInteger>>() {
-
-		};
+		
 
 		try {
-			this.payload.putAll((Map<String, BigInteger>) serializer().readValue(value, ref));
+			this.payload.putAll((Map<String, BigInteger>) serializer().readValue(value, REF));
 		} catch (IOException ioe) {
 			throw new IllegalArgumentException("Unable to deserialize payload.", ioe);
 		}
@@ -97,8 +97,7 @@ public class GCounter extends AbstractCRDT<BigInteger, GCounter> implements CRDT
 
 		return this.value();
 	}
-
-	@JsonView
+	
 	@Override
 	public byte[] payload() {
 		try {

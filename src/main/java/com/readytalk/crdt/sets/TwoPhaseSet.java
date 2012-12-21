@@ -8,11 +8,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.annotate.JsonValue;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -46,9 +44,8 @@ public class TwoPhaseSet<E> implements
 		serializer = mapper;
 
 		try {
-			JsonNode node = mapper.readTree(value);
 
-			Map<String, JsonNode> retval = mapper.readValue(node, ref);
+			Map<String, JsonNode> retval = mapper.readValue(value, ref);
 
 			adds = new GSet<E>(mapper, mapper.writeValueAsBytes(retval
 					.get(ADD_TOKEN)));
@@ -92,7 +89,6 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	@JsonValue
 	public final byte[] payload() {
 		try {
 			Map<String, JsonNode> retval = Maps.newHashMap();

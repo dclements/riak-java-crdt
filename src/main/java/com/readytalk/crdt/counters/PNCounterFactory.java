@@ -2,8 +2,7 @@ package com.readytalk.crdt.counters;
 
 import javax.inject.Inject;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.readytalk.crdt.CRDTFactory;
 import com.readytalk.crdt.inject.ClientId;
 

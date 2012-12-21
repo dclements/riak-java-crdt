@@ -2,14 +2,11 @@ package com.readytalk.crdt.counters;
 
 import java.math.BigInteger;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PNCounterTest extends CRDTCounterTest<BigInteger, PNCounter> {
-
-	private final ObjectMapper mapper = new ObjectMapper();
 	
 	private PNCounter counter0;
 	private PNCounter counter1;

@@ -2,8 +2,6 @@ package com.readytalk.crdt;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import org.codehaus.jackson.annotate.JsonValue;
-
 @NotThreadSafe
 public interface CRDT<S, R extends CRDT<S, R>> {
 	/**
@@ -19,6 +17,5 @@ public interface CRDT<S, R extends CRDT<S, R>> {
 	/**
 	 * The serialized version of this object.
 	 */
-	@JsonValue
 	byte [] payload();
 }
