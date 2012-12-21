@@ -3,19 +3,24 @@ Java CRDT Library
 
 A collection of basic conflict-free replicated data types (CRDTs).  Currently everything is set up to serialize into JSON objects.
 
+Goals
+=====
+* Provide a set of common interfaces, patterns, and objects for working with CRDTs.
+* Some degree of storage independence.  The emphasis is on Riak, but they should be portable.
+
 Features
 ========
 * Support for GSets, 2PSets, GCounters, PNCounters.
-* Single interface and utilities for working with CRDTs.
 * JSR 330 annotations for dependency injection.
 
 Future Work
 ===========
+* Better [Jackson](http://jackson.codehaus.org) use and integration. 
+* Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.
 * Tools for specifically working with Riak.  
 * More basic types (e.g., ORSets).
 * Integration tests.
 * Derived types for collecting more specific types of information (e.g., statistics). 
-* Better [Jackson](http://jackson.codehaus.org) use and integration. 
 * Eclipse style configuration, checkstyle configurations for tests.
 * Support for other serialization strategies.
 
