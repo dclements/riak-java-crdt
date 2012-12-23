@@ -6,23 +6,29 @@ A collection of basic conflict-free replicated data types (CRDTs).  Currently ev
 Goals
 =====
 * Provide a set of common interfaces, patterns, and objects for working with CRDTs.
-* Some degree of storage independence.  The emphasis is on Riak, but they should be portable.
+* Some degree of storage independence.  The emphasis is on Riak, but the objects should be portable.
 
 Features
 ========
 * Support for GSets, 2PSets, GCounters, PNCounters.
 * JSR 330 annotations for dependency injection.
+* JSR 305 annotations for documenting proper use of the API and documenting thread safety.
 
 Future Work
 ===========
+
+Roughly in order:
+
 * Better [Jackson](http://jackson.codehaus.org) use and integration. 
 * Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.
-* Tools for specifically working with Riak.  
-* More basic types (e.g., ORSets).
+* Tools for specifically working with Riak. 
 * Integration tests.
+* Have the counters support other Number types.
+* Guice modules with the bindings for convenience.
 * Derived types for collecting more specific types of information (e.g., statistics). 
-* Eclipse style configuration, checkstyle configurations for tests.
-* Support for other serialization strategies.
+* More basic types (e.g., ORSets, graphs).
+* Add garbage collection.
+* Support for other serialization methods.
 
 Based On
 =======
