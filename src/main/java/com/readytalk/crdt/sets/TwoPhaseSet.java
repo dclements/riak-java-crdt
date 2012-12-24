@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -194,7 +195,8 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public boolean equals(final Object o) {
+	public final boolean equals(@Nullable final Object o) {
+	
 		if (!(o instanceof TwoPhaseSet)) {
 			return false;
 		}

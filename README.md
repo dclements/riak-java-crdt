@@ -19,6 +19,7 @@ Future Work
 
 Roughly in order:
 
+* Implement retainAll on methods that support remove. 
 * Better [Jackson](http://jackson.codehaus.org) use and integration. 
 * Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.
 * Tools for specifically working with Riak. 
@@ -26,7 +27,7 @@ Roughly in order:
 * Have the counters support other Number types.
 * Guice modules with the bindings for convenience.
 * Derived types for collecting more specific types of information (e.g., statistics). 
-* More basic types (e.g., ORSets, graphs).
+* More basic types (e.g., graphs).
 * Add garbage collection.
 * Support for other serialization methods.
 

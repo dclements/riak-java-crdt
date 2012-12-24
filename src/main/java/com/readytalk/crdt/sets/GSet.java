@@ -1,5 +1,7 @@
 package com.readytalk.crdt.sets;
 
+import static com.readytalk.crdt.util.CollectionUtils.checkCollectionDoesNotContainNull;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -54,21 +56,6 @@ public class GSet<E> extends ForwardingSet<E> implements
 		serializer = mapper;
 
 		delegate.addAll(set);
-	}
-	
-	private static void checkCollectionDoesNotContainNull(
-			final Collection<?> collection) {
-		boolean containsNull = false;
-
-		try {
-			containsNull = collection.contains(null);
-		} catch (NullPointerException ex) {
-			// Not a problem.
-		}
-
-		if (containsNull) {
-			throw new NullPointerException();
-		}
 	}
 
 	@Override
