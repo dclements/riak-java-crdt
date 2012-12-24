@@ -1,5 +1,7 @@
 package com.readytalk.crdt.sets;
 
+import static com.readytalk.crdt.util.CollectionUtils.checkCollectionDoesNotContainNull;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -65,6 +67,8 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public boolean add(final E value) {
+		Preconditions.checkNotNull(value);
+		
 		UUID uuid = UUID.randomUUID();
 		boolean retval = !elements.containsKey(value);
 
@@ -75,6 +79,8 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public boolean addAll(final Collection<? extends E> values) {
+		Preconditions.checkNotNull(values);
+		checkCollectionDoesNotContainNull(values);
 
 		boolean retval = false;
 
@@ -94,11 +100,14 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public boolean contains(final Object value) {
+		Preconditions.checkNotNull(value);
+		
 		return this.elements.containsKey(value);
 	}
 
 	@Override
 	public boolean containsAll(final Collection<?> values) {
+		checkCollectionDoesNotContainNull(values);
 		return this.value().containsAll(values);
 	}
 
@@ -127,6 +136,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	@Override
 	public boolean removeAll(final Collection<?> values) {
 		Preconditions.checkNotNull(values);
+		checkCollectionDoesNotContainNull(values);
 
 		Multimap<E, UUID> subset = Multimaps.filterKeys(elements,
 				new Predicate<E>() {

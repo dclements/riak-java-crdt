@@ -6,17 +6,12 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 public class ORSetTest extends CRDTSetTest<ImmutableSet<String>, ORSet<String>> {
-	
-	@Rule
-	public final ExpectedException thrown = ExpectedException.none();
 	
 	private ORSet<String> set0;
 	private ORSet<String> set1;
