@@ -27,7 +27,7 @@ Roughly in order:
 * Have the counters support other Number types.
 * Guice modules with the bindings for convenience.
 * Derived types for collecting more specific types of information (e.g., statistics). 
-* More basic types (e.g., ORSets, graphs).
+* More basic types (e.g., graphs).
 * Add garbage collection.
 * Support for other serialization methods.
 
