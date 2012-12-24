@@ -65,7 +65,7 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final TwoPhaseSet<E> merge(final TwoPhaseSet<E> other) {
+	public TwoPhaseSet<E> merge(final TwoPhaseSet<E> other) {
 		GSet<E> a = new GSet<E>(serializer);
 		GSet<E> r = new GSet<E>(serializer);
 
@@ -79,7 +79,7 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final ImmutableSet<E> value() {
+	public ImmutableSet<E> value() {
 		Set<E> retval = Sets.newHashSet();
 
 		retval.addAll(adds);
@@ -89,7 +89,7 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final byte[] payload() {
+	public byte[] payload() {
 		try {
 			Map<String, JsonNode> retval = Maps.newHashMap();
 
@@ -103,7 +103,7 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final boolean add(final E obj) {
+	public boolean add(final E obj) {
 		if (removals.contains(obj)) {
 			throw new IllegalArgumentException(
 					"Cannot add to a group that has had the value removed.");
@@ -112,7 +112,7 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final boolean addAll(final Collection<? extends E> col) {
+	public boolean addAll(final Collection<? extends E> col) {
 		Set<E> s = Sets.intersection(removals, Sets.newHashSet(col));
 
 		if (s.size() > 0) {
@@ -124,35 +124,35 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final void clear() {
+	public void clear() {
 		removals.addAll(adds);
 
 	}
 
 	@Override
-	public final boolean contains(final Object obj) {
+	public boolean contains(final Object obj) {
 		return !removals.contains(obj) && adds.contains(obj);
 	}
 
 	@Override
-	public final boolean containsAll(final Collection<?> col) {
+	public boolean containsAll(final Collection<?> col) {
 		Set<E> s = Sets.intersection(removals, Sets.newHashSet(col));
 		return s.isEmpty() && adds.containsAll(col);
 	}
 
 	@Override
-	public final boolean isEmpty() {
+	public boolean isEmpty() {
 		return removals.containsAll(adds);
 	}
 
 	@Override
-	public final Iterator<E> iterator() {
+	public Iterator<E> iterator() {
 		return this.value().iterator();
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
-	public final boolean remove(final Object obj) {
+	@SuppressWarnings("unchecked")
+	public boolean remove(final Object obj) {
 		if (removals.contains(obj) || !adds.contains(obj)) {
 			return false;
 		}
@@ -163,7 +163,7 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final boolean removeAll(final Collection<?> col) {
+	public boolean removeAll(final Collection<?> col) {
 
 		boolean retval = this.value().containsAll(col);
 
@@ -174,27 +174,27 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final boolean retainAll(final Collection<?> col) {
+	public boolean retainAll(final Collection<?> col) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public final int size() {
+	public int size() {
 		return this.adds.size() - this.removals.size();
 	}
 
 	@Override
-	public final Object[] toArray() {
+	public Object[] toArray() {
 		return this.value().toArray();
 	}
 
 	@Override
-	public final <T> T[] toArray(final T[] arg) {
+	public <T> T[] toArray(final T[] arg) {
 		return this.value().toArray(arg);
 	}
 
 	@Override
-	public final boolean equals(final Object o) {
+	public boolean equals(final Object o) {
 		if (!(o instanceof TwoPhaseSet)) {
 			return false;
 		}
@@ -209,7 +209,7 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		return this.value().hashCode();
 	}
 }

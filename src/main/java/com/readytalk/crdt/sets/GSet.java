@@ -10,46 +10,67 @@ import javax.inject.Inject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 
 /**
- * Grow-only Sets.  Do not implement the remove operations. 
+ * Grow-only Sets. Do not implement the remove operations.
+ * 
  */
-public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet<E>, GSet<E>> {
+public class GSet<E> extends ForwardingSet<E> implements
+		CRDTSet<E, ImmutableSet<E>, GSet<E>> {
+
+	
+
 	private final Set<E> delegate = Sets.newLinkedHashSet();
-	
+
 	private final ObjectMapper serializer;
-	
+
 	private final TypeReference<List<E>> ref = new TypeReference<List<E>>() {
-		
+
 	};
-	
+
 	@Inject
 	public GSet(final ObjectMapper mapper) {
 		serializer = mapper;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public GSet(final ObjectMapper mapper, final byte [] payload) {
+	public GSet(final ObjectMapper mapper, final byte[] payload) {
 		serializer = mapper;
-		
+
 		try {
-			delegate.addAll((List<E>)serializer.readValue(payload, ref));
+			delegate.addAll((List<E>) serializer.readValue(payload, ref));
 		} catch (IOException ioe) {
 			throw new IllegalArgumentException("Unable to deserialize.", ioe);
 		}
-		
+
 	}
-	
+
 	private GSet(final ObjectMapper mapper, final Set<E> set) {
 		serializer = mapper;
-		
+
 		delegate.addAll(set);
 	}
 	
+	private static void checkCollectionDoesNotContainNull(
+			final Collection<?> collection) {
+		boolean containsNull = false;
+
+		try {
+			containsNull = collection.contains(null);
+		} catch (NullPointerException ex) {
+			// Not a problem.
+		}
+
+		if (containsNull) {
+			throw new NullPointerException();
+		}
+	}
+
 	@Override
 	protected Set<E> delegate() {
 		return delegate;
@@ -58,7 +79,7 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 	@Override
 	public void clear() {
 		throw new UnsupportedOperationException();
-		
+
 	}
 
 	@Override
@@ -84,10 +105,10 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 	@Override
 	public GSet<E> merge(final GSet<E> other) {
 		Set<E> retval = Sets.newLinkedHashSet();
-		
+
 		retval.addAll(delegate);
 		retval.addAll(other.delegate);
-		
+
 		return new GSet<E>(serializer, retval);
 	}
 
@@ -103,6 +124,34 @@ public class GSet<E> extends ForwardingSet<E> implements CRDTSet<E, ImmutableSet
 		} catch (IOException ioe) {
 			throw new IllegalStateException("Unable to serialize.", ioe);
 		}
+	}
+
+	@Override
+	public boolean contains(final Object object) {
+		Preconditions.checkNotNull(object);
+
+		return super.contains(object);
+	}
+
+	@Override
+	public boolean add(final E element) {
+		Preconditions.checkNotNull(element);
+
+		return super.add(element);
+	}
+
+	@Override
+	public boolean containsAll(final Collection<?> collection) {
+		checkCollectionDoesNotContainNull(collection);
+
+		return super.containsAll(collection);
+	}
+
+	@Override
+	public boolean addAll(final Collection<? extends E> collection) {
+		checkCollectionDoesNotContainNull(collection);
+
+		return super.addAll(collection);
 	}
 
 }
