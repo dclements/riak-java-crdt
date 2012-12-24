@@ -19,6 +19,7 @@ Future Work
 
 Roughly in order:
 
+* Implement retainAll on methods that support remove. 
 * Better [Jackson](http://jackson.codehaus.org) use and integration. 
 * Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.
 * Tools for specifically working with Riak. 

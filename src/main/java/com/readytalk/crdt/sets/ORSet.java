@@ -18,10 +18,14 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.common.collect.Sets;
 import com.readytalk.crdt.AbstractCRDT;
 
 public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 		CRDTSet<E, ImmutableSet<E>, ORSet<E>> {
+
+	private static final String ELEMENTS_TOKEN = "e";
+	private static final String TOMBSTONES_TOKEN = "t";
 
 	private final Multimap<E, UUID> elements = LinkedHashMultimap.create();
 	private final Multimap<E, UUID> tombstones = LinkedHashMultimap.create();
@@ -29,53 +33,55 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	public ORSet(final ObjectMapper mapper) {
 		super(mapper);
 	}
-	
-	public ORSet(final ObjectMapper mapper, final byte [] value) {
+
+	public ORSet(final ObjectMapper mapper, final byte[] value) {
 		super(mapper);
-		
-		TypeReference<Map<String, Map<E, Collection<UUID>>>> ref = new TypeReference<Map<String, Map<E, Collection<UUID>>>>() {
+
+		TypeReference<Map<String, Map<E, Collection<UUID>>>> ref =
+				new TypeReference<Map<String, Map<E, Collection<UUID>>>>() {
 
 		};
-		
+
 		try {
-			Map<String, Map<E, Collection<UUID>>> s1 = mapper.readValue(value, ref);
-			
-			Map<E, Collection<UUID>> e = s1.get("e");
-			Map<E, Collection<UUID>> t = s1.get("t");
-			
+			Map<String, Map<E, Collection<UUID>>> s1 = mapper.readValue(value,
+					ref);
+
+			Map<E, Collection<UUID>> e = s1.get(ELEMENTS_TOKEN);
+			Map<E, Collection<UUID>> t = s1.get(TOMBSTONES_TOKEN);
+
 			for (Map.Entry<E, Collection<UUID>> o : e.entrySet()) {
 				elements.putAll(o.getKey(), o.getValue());
 			}
-			
+
 			for (Map.Entry<E, Collection<UUID>> o : t.entrySet()) {
 				tombstones.putAll(o.getKey(), o.getValue());
 			}
-			
+
 		} catch (IOException ex) {
 			throw new IllegalArgumentException("Unable to deserialize.");
 		}
-		
+
 	}
-	
+
 	@Override
-	public boolean add(E value) {
+	public boolean add(final E value) {
 		UUID uuid = UUID.randomUUID();
 		boolean retval = !elements.containsKey(value);
-		
+
 		elements.put(value, uuid);
-		
+
 		return retval;
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends E> values) {
-		
+	public boolean addAll(final Collection<? extends E> values) {
+
 		boolean retval = false;
-		
+
 		for (E o : values) {
 			retval |= this.add(o);
 		}
-		
+
 		return retval;
 	}
 
@@ -87,12 +93,12 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	}
 
 	@Override
-	public boolean contains(Object value) {
+	public boolean contains(final Object value) {
 		return this.elements.containsKey(value);
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> values) {
+	public boolean containsAll(final Collection<?> values) {
 		return this.value().containsAll(values);
 	}
 
@@ -103,52 +109,50 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public Iterator<E> iterator() {
-		return Iterators.unmodifiableIterator(this.elements.keySet().iterator());
+		return Iterators
+				.unmodifiableIterator(this.elements.keySet().iterator());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean remove(Object value) {
+	public boolean remove(final Object value) {
 		Preconditions.checkNotNull(value);
-		
-		this.tombstones.putAll((E)value, elements.get((E)value));
-		
+
+		this.tombstones.putAll((E) value, elements.get((E) value));
+
 		return elements.removeAll(value).size() > 0;
-		
+
 	}
 
 	@Override
 	public boolean removeAll(final Collection<?> values) {
 		Preconditions.checkNotNull(values);
-		
-		
-		Multimap<E, UUID> subset = Multimaps.filterKeys(elements, new Predicate<E>() {
 
-			@Override
-			public boolean apply(@Nullable E input) {
-				
-				Preconditions.checkNotNull(input);
-				
-				return values.contains(input);
-			}
-		});
-		
+		Multimap<E, UUID> subset = Multimaps.filterKeys(elements,
+				new Predicate<E>() {
+
+					@Override
+					public boolean apply(final E input) {
+
+						return values.contains(input);
+					}
+				});
+
 		if (subset.isEmpty()) {
 			return false;
 		}
-		
-		for (E o : subset.keySet()) {
+
+		for (E o : Sets.newLinkedHashSet(subset.keySet())) {
 			Collection<UUID> result = this.elements.removeAll(o);
-			
+
 			this.tombstones.putAll(o, result);
 		}
-		
-		
+
 		return true;
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> values) {
+	public boolean retainAll(final Collection<?> values) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -163,21 +167,21 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	}
 
 	@Override
-	public <T> T[] toArray(T[] arg) {
+	public <T> T[] toArray(final T[] arg) {
 		return elements.keySet().toArray(arg);
 	}
 
 	@Override
-	public ORSet<E> merge(ORSet<E> other) {
+	public ORSet<E> merge(final ORSet<E> other) {
 		ORSet<E> retval = new ORSet<E>(serializer());
-		
+
 		retval.elements.putAll(this.elements);
 		retval.elements.putAll(other.elements);
 		retval.tombstones.putAll(this.tombstones);
 		retval.tombstones.putAll(other.elements);
-		
+
 		retval.elements.removeAll(retval.tombstones);
-		
+
 		return retval;
 	}
 
@@ -189,9 +193,10 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	@Override
 	public byte[] payload() {
 		Map<String, Object> retval = Maps.newLinkedHashMap();
-		
-		retval.put("e", elements.asMap());
-		retval.put("t", tombstones.asMap());
+
+		retval.put(ELEMENTS_TOKEN, elements.asMap());
+		retval.put(TOMBSTONES_TOKEN, tombstones.asMap());
+
 		try {
 			return serializer().writeValueAsBytes(retval);
 		} catch (IOException ex) {

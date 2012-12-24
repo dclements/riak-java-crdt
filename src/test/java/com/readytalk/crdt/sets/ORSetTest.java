@@ -1,15 +1,17 @@
 package com.readytalk.crdt.sets;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
 public class ORSetTest extends CRDTSetTest<ImmutableSet<String>, ORSet<String>> {
 	
@@ -67,10 +69,30 @@ public class ORSetTest extends CRDTSetTest<ImmutableSet<String>, ORSet<String>> 
 		return new ORSet<String>(mapper, values);
 	}
 	
-	@Ignore
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void removeIsImplemented() {
+		assertTrue(set1.remove(OBJ_1));
 	}
-
+	
+	@Test
+	public void removeAllIsImplemented() {
+		List<String> objects = Lists.newArrayList(OBJ_2, OBJ_3);
+		
+		assertTrue(set2.removeAll(objects));
+	}
+	
+	@Test
+	public void canReAddRemoved() {
+		set12.remove(OBJ_1);
+		set12.add(OBJ_1);
+		
+		assertTrue(set12.contains(OBJ_1));
+	}
+	
+	@Test
+	public void retainIsUnsupported() {
+		thrown.expect(UnsupportedOperationException.class);
+		
+		set12.retainAll(set1);
+	}
 }
