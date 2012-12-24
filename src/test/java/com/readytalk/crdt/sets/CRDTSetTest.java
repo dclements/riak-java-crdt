@@ -34,6 +34,8 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		assertFalse(firstOrtho().isEmpty());
 		assertFalse(secondOrtho().isEmpty());
 		assertNotEquals(firstOrtho().value(), secondOrtho().value());
+		assertNotEquals(firstOrtho().value(), firstAndSecond().value());
+		assertNotEquals(secondOrtho().value(), firstAndSecond().value());
 	}
 	
 	@Test
@@ -142,6 +144,14 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		assertTrue(defaultCRDT().add(OBJ_1));
 		
 		assertFalse(defaultCRDT().add(OBJ_1));
+	}
+	
+	@Test
+	public void mergeCombinesItems() {
+		int o1 = firstOrtho().size();
+		int o2 = secondOrtho().size();
+		
+		assertEquals(o1 + o2, firstOrtho().merge(secondOrtho()).size());
 	}
 
 

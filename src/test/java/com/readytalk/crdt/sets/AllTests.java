@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ GSetTest.class, GSetFactoryTest.class, TwoPhaseSetTest.class, TwoPhaseSetFactoryTest.class })
+@SuiteClasses({ GSetFactoryTest.class, GSetTest.class, ORSetTest.class,
+		TwoPhaseSetFactoryTest.class, TwoPhaseSetTest.class })
 public class AllTests {
 
 }
