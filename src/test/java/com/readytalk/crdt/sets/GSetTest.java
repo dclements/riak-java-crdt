@@ -2,16 +2,11 @@ package com.readytalk.crdt.sets;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.ImmutableSet;
 
 public class GSetTest extends CRDTSetTest<ImmutableSet<String>, GSet<String>> {
-	
-	@Rule
-	public final ExpectedException thrown = ExpectedException.none();
 	
 	private GSet<String> set0;
 	private GSet<String> set1;
