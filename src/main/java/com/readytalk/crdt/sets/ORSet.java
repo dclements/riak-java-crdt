@@ -1,5 +1,6 @@
 package com.readytalk.crdt.sets;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.readytalk.crdt.util.CollectionUtils.checkCollectionDoesNotContainNull;
 
 import java.io.IOException;
@@ -13,7 +14,6 @@ import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
@@ -68,7 +68,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public boolean add(final E value) {
-		Preconditions.checkNotNull(value);
+		checkNotNull(value);
 		
 		UUID uuid = UUID.randomUUID();
 		boolean retval = !elements.containsKey(value);
@@ -80,7 +80,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public boolean addAll(final Collection<? extends E> values) {
-		Preconditions.checkNotNull(values);
+		checkNotNull(values);
 		checkCollectionDoesNotContainNull(values);
 
 		boolean retval = false;
@@ -101,7 +101,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public boolean contains(final Object value) {
-		Preconditions.checkNotNull(value);
+		checkNotNull(value);
 		
 		return this.elements.containsKey(value);
 	}
@@ -126,7 +126,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(final Object value) {
-		Preconditions.checkNotNull(value);
+		checkNotNull(value);
 
 		this.tombstones.putAll((E) value, elements.get((E) value));
 
@@ -136,7 +136,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public boolean removeAll(final Collection<?> values) {
-		Preconditions.checkNotNull(values);
+		checkNotNull(values);
 		checkCollectionDoesNotContainNull(values);
 
 		Multimap<E, UUID> subset = Multimaps.filterKeys(elements,
@@ -165,7 +165,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean retainAll(final Collection<?> values) {
-		Preconditions.checkNotNull(values);
+		checkNotNull(values);
 		checkCollectionDoesNotContainNull(values);
 		
 		Set<E> input = Sets.newHashSet((Collection<E>)values);

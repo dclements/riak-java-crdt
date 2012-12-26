@@ -1,5 +1,6 @@
 package com.readytalk.crdt.sets;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.readytalk.crdt.util.CollectionUtils.checkCollectionDoesNotContainNull;
 
 import java.io.IOException;
@@ -14,7 +15,6 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -162,19 +162,21 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean removeAll(final Collection<?> col) {
-		boolean retval = false;
-
-		for (Object o : col) {
-			retval |= this.remove(o);
-		}
-		return retval;
+		checkNotNull(col);
+		checkCollectionDoesNotContainNull(col);
+		
+		Set<E> input = Sets.newHashSet((Collection<E>) col);
+		Set<E> intersection = Sets.intersection(this.adds, input);
+		
+		return this.removals.addAll(intersection);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean retainAll(final Collection<?> col) {
-		Preconditions.checkNotNull(col);
+		checkNotNull(col);
 		checkCollectionDoesNotContainNull(col);
 
 		Set<E> input = Sets.newHashSet((Collection<E>) col);
