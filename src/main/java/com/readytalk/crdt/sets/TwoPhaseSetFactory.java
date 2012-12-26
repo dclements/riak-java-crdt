@@ -1,10 +1,12 @@
 package com.readytalk.crdt.sets;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.readytalk.crdt.CRDTFactory;
 
+@Singleton
 public class TwoPhaseSetFactory<E> implements CRDTFactory<TwoPhaseSet<E>> {
 
 	private final ObjectMapper serializer;

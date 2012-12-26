@@ -1,11 +1,13 @@
 package com.readytalk.crdt.counters;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.readytalk.crdt.CRDTFactory;
 import com.readytalk.crdt.inject.ClientId;
 
+@Singleton
 public class PNCounterFactory implements CRDTFactory<PNCounter> {
 	
 	private final ObjectMapper serializer;

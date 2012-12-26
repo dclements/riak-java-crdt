@@ -1,4 +1,4 @@
-Java CRDT Library
+Java CRDT Library [![Build Status](https://api.travis-ci.org/dclements/riak-java-crdt.png)](https://travis-ci.org/dclements/riak-java-crdt)
 =========
 
 A collection of basic conflict-free replicated data types (CRDTs).  Currently everything is set up to serialize into JSON objects.
@@ -10,26 +10,29 @@ Goals
 
 Features
 ========
-* Support for GSets, 2PSets, GCounters, PNCounters.
-* JSR 330 annotations for dependency injection.
-* JSR 305 annotations for documenting proper use of the API and documenting thread safety.
+* Support for GSets, 2PSets, ORSets, GCounters, PNCounters.
+* Unified interfaces for serialization/deserialization of CRDT objects.
+* JSON serialization. 
+* [JSR 330](http://code.google.com/p/atinject/) annotations for dependency injection.
+* [JSR 305](http://findbugs-tutorials.googlecode.com/files/UFIA-305.pdf) annotations for documenting proper use of the API and documenting thread safety.
 
 Future Work
 ===========
 
 Roughly in order:
 
-* Implement retainAll on methods that support remove. 
 * Better [Jackson](http://jackson.codehaus.org) use and integration. 
 * Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.
 * Tools for specifically working with Riak. 
 * Integration tests.
+* Some form of versioning for (de)serialization purposes.
 * Have the counters support other Number types.
 * Guice modules with the bindings for convenience.
 * Derived types for collecting more specific types of information (e.g., statistics). 
 * More basic types (e.g., graphs, LWW).
 * Add garbage collection.
 * Support for other serialization methods.
+* Local caching of immutable views. 
 
 Based On
 =======

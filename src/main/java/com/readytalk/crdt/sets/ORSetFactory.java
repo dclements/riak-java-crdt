@@ -7,23 +7,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.readytalk.crdt.CRDTFactory;
 
 @Singleton
-public class GSetFactory<E> implements CRDTFactory<GSet<E>> {
-	
+public class ORSetFactory<E> implements CRDTFactory<ORSet<E>> {
 	private final ObjectMapper serializer;
 	
 	@Inject
-	public GSetFactory(final ObjectMapper mapper) {
+	public ORSetFactory(final ObjectMapper mapper) {
 		this.serializer = mapper;
 	}
 
 	@Override
-	public GSet<E> create() {
-		return new GSet<E>(serializer);
+	public ORSet<E> create() {
+		return new ORSet<E>(serializer);
 	}
 
 	@Override
-	public GSet<E> create(final byte[] payload) {
-		return new GSet<E>(serializer, payload);
+	public ORSet<E> create(final byte[] payload) {
+		return new ORSet<E>(serializer, payload);
 	}
-
 }
