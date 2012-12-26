@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
@@ -89,10 +91,12 @@ public class TwoPhaseSetTest extends CRDTSetTest<ImmutableSet<String>, TwoPhaseS
 	}
 	
 	@Test
-	public void retainIsUnsupported() {
-		thrown.expect(UnsupportedOperationException.class);
+	public void retainIsSupported() {
 		
 		set12.retainAll(set1);
+		
+		assertEquals(1, set12.size());
+		assertTrue(set12.contains(OBJ_1));
 	}
 	
 	@Test

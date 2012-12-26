@@ -1,5 +1,6 @@
 package com.readytalk.crdt.sets;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.readytalk.crdt.util.CollectionUtils.checkCollectionDoesNotContainNull;
 
 import java.io.IOException;
@@ -12,7 +13,6 @@ import javax.inject.Inject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
@@ -24,8 +24,6 @@ import com.google.common.collect.Sets;
  */
 public class GSet<E> extends ForwardingSet<E> implements
 		CRDTSet<E, ImmutableSet<E>, GSet<E>> {
-
-	
 
 	private final Set<E> delegate = Sets.newLinkedHashSet();
 
@@ -115,14 +113,14 @@ public class GSet<E> extends ForwardingSet<E> implements
 
 	@Override
 	public boolean contains(final Object object) {
-		Preconditions.checkNotNull(object);
+		checkNotNull(object);
 
 		return super.contains(object);
 	}
 
 	@Override
 	public boolean add(final E element) {
-		Preconditions.checkNotNull(element);
+		checkNotNull(element);
 
 		return super.add(element);
 	}

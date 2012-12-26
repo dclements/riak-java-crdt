@@ -1,5 +1,8 @@
 package com.readytalk.crdt.sets;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.readytalk.crdt.util.CollectionUtils.checkCollectionDoesNotContainNull;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -81,12 +84,7 @@ public class TwoPhaseSet<E> implements
 
 	@Override
 	public ImmutableSet<E> value() {
-		Set<E> retval = Sets.newHashSet();
-
-		retval.addAll(adds);
-		retval.removeAll(removals);
-
-		return ImmutableSet.copyOf(retval);
+		return ImmutableSet.copyOf(Sets.difference(this.adds, this.removals));
 	}
 
 	@Override
@@ -150,7 +148,7 @@ public class TwoPhaseSet<E> implements
 	public Iterator<E> iterator() {
 		return this.value().iterator();
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean remove(final Object obj) {
@@ -164,19 +162,27 @@ public class TwoPhaseSet<E> implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean removeAll(final Collection<?> col) {
-
-		boolean retval = this.value().containsAll(col);
-
-		for (Object o : col) {
-			this.remove(o);
-		}
-		return retval;
+		checkNotNull(col);
+		checkCollectionDoesNotContainNull(col);
+		
+		Set<E> input = Sets.newHashSet((Collection<E>) col);
+		Set<E> intersection = Sets.intersection(this.adds, input);
+		
+		return this.removals.addAll(intersection);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean retainAll(final Collection<?> col) {
-		throw new UnsupportedOperationException();
+		checkNotNull(col);
+		checkCollectionDoesNotContainNull(col);
+
+		Set<E> input = Sets.newHashSet((Collection<E>) col);
+		Set<E> diff = Sets.difference(this.value(), input);
+
+		return this.removeAll(diff);
 	}
 
 	@Override
@@ -196,7 +202,7 @@ public class TwoPhaseSet<E> implements
 
 	@Override
 	public final boolean equals(@Nullable final Object o) {
-	
+
 		if (!(o instanceof TwoPhaseSet)) {
 			return false;
 		}

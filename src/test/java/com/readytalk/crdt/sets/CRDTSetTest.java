@@ -96,6 +96,35 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 			Assume.assumeNoException(ex);
 		}
 	}
+	
+	@Test
+	public void removeAllShouldRemove() {
+		try {
+			firstAndSecond().removeAll(firstOrtho());
+			
+			assertEquals(secondOrtho(), firstAndSecond());
+		} catch (UnsupportedOperationException ex) {
+			Assume.assumeNoException(ex);
+		}
+	}
+	
+	@Test
+	public void removeAllReturnsTrueWhenChanged() {
+		try {
+			assertTrue(firstAndSecond().removeAll(firstOrtho()));
+		} catch (UnsupportedOperationException ex) {
+			Assume.assumeNoException(ex);
+		}
+	}
+	
+	@Test
+	public void removeAllReturnsFalseWhenUnChanged() {
+		try {
+			assertFalse(firstOrtho().removeAll(secondOrtho()));
+		} catch (UnsupportedOperationException ex) {
+			Assume.assumeNoException(ex);
+		}
+	}
 
 	@Test
 	public void removeReturnsFalseIfNotPresent() {

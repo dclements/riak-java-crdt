@@ -62,25 +62,25 @@ public class GSetTest extends CRDTSetTest<ImmutableSet<String>, GSet<String>> {
 	}
 
 	@Test
-	public void cannotRemove() {
+	public void remvoeUnsupported() {
 		thrown.expect(UnsupportedOperationException.class);
 		set1.remove(OBJ_1);
 	}
 	
 	@Test
-	public void cannotRemoveAll() {
+	public void removeALlUnsupported() {
 		thrown.expect(UnsupportedOperationException.class);
 		set12.removeAll(set1);
 	}
 	
 	@Test
-	public void cannotRetainAll() {
+	public void retainAllUnsupported() {
 		thrown.expect(UnsupportedOperationException.class);
 		set12.retainAll(set1);
 	}
 	
 	@Test
-	public void cannotClear() {
+	public void clearUnsupported() {
 		thrown.expect(UnsupportedOperationException.class);
 		set12.retainAll(set1);
 	}
