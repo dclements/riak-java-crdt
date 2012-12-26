@@ -241,4 +241,9 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	public final int hashCode() {
 		return this.value().hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return this.value().toString();
+	}
 }

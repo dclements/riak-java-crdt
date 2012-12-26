@@ -220,4 +220,9 @@ public class TwoPhaseSet<E> implements
 	public int hashCode() {
 		return this.value().hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return this.value().toString();
+	}
 }

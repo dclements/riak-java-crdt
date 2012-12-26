@@ -1,8 +1,10 @@
 package com.readytalk.crdt.sets;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -30,6 +32,8 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 	protected static final String OBJ_1 = "1";
 	protected static final String OBJ_2 = "2";
 	protected static final String OBJ_3 = "3";
+	
+	private static final String COMMA = ",";
 
 	@Before
 	public void setUp() throws Exception {
@@ -327,6 +331,16 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		} catch (NullPointerException ex) {
 			// expected
 		}
+	}
+	
+	@Test
+	public void toStringContainsValues() {
+		String value = firstAndSecond().toString();
+		assertThat(value, containsString(OBJ_1));
+		assertThat(value, containsString(OBJ_2));
+		assertThat(value, containsString(OBJ_3));
+		
+		assertThat(value, containsString(COMMA));
 	}
 
 }
