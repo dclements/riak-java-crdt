@@ -1,5 +1,6 @@
 package com.readytalk.crdt.sets;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -74,6 +75,7 @@ public class ORSetTest extends CRDTSetTest<ImmutableSet<String>, ORSet<String>> 
 		List<String> objects = Lists.newArrayList(OBJ_2, OBJ_3);
 		
 		assertTrue(set2.removeAll(objects));
+		assertTrue(set2.isEmpty());
 	}
 	
 	@Test
@@ -85,9 +87,11 @@ public class ORSetTest extends CRDTSetTest<ImmutableSet<String>, ORSet<String>> 
 	}
 	
 	@Test
-	public void retainIsUnsupported() {
-		thrown.expect(UnsupportedOperationException.class);
+	public void retainIsSupported() {
 		
 		set12.retainAll(set1);
+		
+		assertEquals(1, set12.size());
+		assertTrue(set12.contains(OBJ_1));
 	}
 }

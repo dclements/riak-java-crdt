@@ -27,7 +27,7 @@ Roughly in order:
 * Have the counters support other Number types.
 * Guice modules with the bindings for convenience.
 * Derived types for collecting more specific types of information (e.g., statistics). 
-* More basic types (e.g., graphs).
+* More basic types (e.g., graphs, LWW).
 * Add garbage collection.
 * Support for other serialization methods.
 
@@ -36,4 +36,5 @@ Based On
 
 * [Conflict Free Replicated Data Types](http://hal.inria.fr/docs/00/61/73/41/PDF/RR-7687.pdf)
 * [A comprehensive study of Convergent and Commutative Replicated Data Types](http://hal.upmc.fr/docs/00/55/55/88/PDF/techreport.pdf)
+* [An Optimized Conflict-free Replicated Set](http://www-user.rhrk.uni-kl.de/~bieniusa/paper/techrep2012-semantics.pdf)
 * @ericmortiz's [CRDT Library in Python](https://github.com/ericmoritz/crdt)

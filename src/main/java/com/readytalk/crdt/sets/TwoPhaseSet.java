@@ -1,5 +1,7 @@
 package com.readytalk.crdt.sets;
 
+import static com.readytalk.crdt.util.CollectionUtils.checkCollectionDoesNotContainNull;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,6 +14,7 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -81,12 +84,7 @@ public class TwoPhaseSet<E> implements
 
 	@Override
 	public ImmutableSet<E> value() {
-		Set<E> retval = Sets.newHashSet();
-
-		retval.addAll(adds);
-		retval.removeAll(removals);
-
-		return ImmutableSet.copyOf(retval);
+		return ImmutableSet.copyOf(Sets.difference(this.adds, this.removals));
 	}
 
 	@Override
@@ -150,7 +148,7 @@ public class TwoPhaseSet<E> implements
 	public Iterator<E> iterator() {
 		return this.value().iterator();
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean remove(final Object obj) {
@@ -165,18 +163,24 @@ public class TwoPhaseSet<E> implements
 
 	@Override
 	public boolean removeAll(final Collection<?> col) {
-
-		boolean retval = this.value().containsAll(col);
+		boolean retval = false;
 
 		for (Object o : col) {
-			this.remove(o);
+			retval |= this.remove(o);
 		}
 		return retval;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean retainAll(final Collection<?> col) {
-		throw new UnsupportedOperationException();
+		Preconditions.checkNotNull(col);
+		checkCollectionDoesNotContainNull(col);
+
+		Set<E> input = Sets.newHashSet((Collection<E>) col);
+		Set<E> diff = Sets.difference(this.value(), input);
+
+		return this.removeAll(diff);
 	}
 
 	@Override
@@ -196,7 +200,7 @@ public class TwoPhaseSet<E> implements
 
 	@Override
 	public final boolean equals(@Nullable final Object o) {
-	
+
 		if (!(o instanceof TwoPhaseSet)) {
 			return false;
 		}

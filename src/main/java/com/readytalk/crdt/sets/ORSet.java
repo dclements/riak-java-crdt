@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -162,8 +163,15 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean retainAll(final Collection<?> values) {
-		throw new UnsupportedOperationException();
+		Preconditions.checkNotNull(values);
+		checkCollectionDoesNotContainNull(values);
+		
+		Set<E> input = Sets.newHashSet((Collection<E>)values);
+		Set<E> diff = Sets.difference(this.elements.keySet(), input);
+		
+		return this.removeAll(diff);
 	}
 
 	@Override
