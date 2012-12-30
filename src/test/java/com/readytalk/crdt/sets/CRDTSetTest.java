@@ -1,6 +1,6 @@
 package com.readytalk.crdt.sets;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -34,6 +34,8 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 	protected static final String OBJ_3 = "3";
 	
 	private static final String COMMA = ",";
+	
+	public abstract R newSet();
 
 	@Before
 	public void setUp() throws Exception {
@@ -342,5 +344,13 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		
 		assertThat(value, containsString(COMMA));
 	}
-
+	
+	@Test
+	public void sizeConstantOnAddExisting() {
+		R set = defaultCRDT();
+		set.add(OBJ_1);
+		set.add(OBJ_1);
+		
+		assertEquals(1, set.size());
+	}
 }

@@ -39,6 +39,11 @@ public class TwoPhaseSetTest extends CRDTSetTest<ImmutableSet<String>, TwoPhaseS
 	}
 	
 	@Override
+	public TwoPhaseSet<String> newSet() {
+		return new TwoPhaseSet<String>(mapper);
+	}
+	
+	@Override
 	protected TwoPhaseSet<String> defaultCRDT() {
 		return set0;
 	}

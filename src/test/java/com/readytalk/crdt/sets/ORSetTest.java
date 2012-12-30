@@ -39,6 +39,11 @@ public class ORSetTest extends CRDTSetTest<ImmutableSet<String>, ORSet<String>> 
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	@Override
+	public ORSet<String> newSet() {
+		return new ORSet<String>(mapper);
+	}
 
 	@Override
 	protected ORSet<String> defaultCRDT() {

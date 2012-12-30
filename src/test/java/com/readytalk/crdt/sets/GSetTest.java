@@ -36,6 +36,11 @@ public class GSetTest extends CRDTSetTest<ImmutableSet<String>, GSet<String>> {
 	}
 	
 	@Override
+	public GSet<String> newSet() {
+		return new GSet<String>(mapper);
+	}
+	
+	@Override
 	protected GSet<String> defaultCRDT() {
 		return set0;
 	}
