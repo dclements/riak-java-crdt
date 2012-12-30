@@ -176,7 +176,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 
 	@Override
 	public int size() {
-		return elements.size();
+		return elements.keySet().size();
 	}
 
 	@Override
