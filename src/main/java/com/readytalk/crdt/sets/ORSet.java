@@ -61,7 +61,7 @@ public class ORSet<E> extends AbstractCRDT<ImmutableSet<E>, ORSet<E>> implements
 			}
 
 		} catch (IOException ex) {
-			throw new IllegalArgumentException("Unable to deserialize.");
+			throw new IllegalArgumentException("Unable to deserialize.", ex);
 		}
 
 	}

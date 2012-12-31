@@ -6,12 +6,19 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.hamcrest.CustomMatcher;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class CRDTTest<S, R extends CRDT<S, R>> {
+	
+	@Rule
+	public final ExpectedException thrown = ExpectedException.none();
 
 	protected static final String CLIENT_ID1 = "one";
 	protected static final String CLIENT_ID2 = "two";
@@ -84,6 +91,20 @@ public abstract class CRDTTest<S, R extends CRDT<S, R>> {
 	@Ignore("future")
 	public void directlySerializes() throws Exception {
 		assertNotNull(mapper.writeValueAsString(firstOrtho()));
+	}
+	
+	@Test
+	public void invalidJSONThrowsWrappedException() throws Exception {
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectCause(new CustomMatcher<Throwable>("Wraps a JSON exeption.") {
+
+			@Override
+			public boolean matches(final Object ex) {
+				return ex instanceof JsonParseException;
+			}
+		});
+		
+		fromPayload("", "][".getBytes("utf8"));
 	}
 
 }
