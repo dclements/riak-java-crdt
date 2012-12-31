@@ -66,7 +66,7 @@ public class ORSetTest extends CRDTSetTest<ImmutableSet<String>, ORSet<String>> 
 	}
 
 	@Override
-	protected ORSet<String> fromPayload(String clientId, byte[] values) {
+	protected ORSet<String> fromPayload(final String clientId, final byte[] values) {
 		return new ORSet<String>(mapper, values);
 	}
 	

@@ -1,6 +1,7 @@
 package com.readytalk.crdt.sets;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -8,15 +9,14 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.Sets;
 import com.readytalk.crdt.CRDTTest;
@@ -25,9 +25,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<String, S, R>>
 		extends CRDTTest<S, R> {
-
-	@Rule
-	public final ExpectedException thrown = ExpectedException.none();
 
 	protected static final String OBJ_1 = "1";
 	protected static final String OBJ_2 = "2";
@@ -53,6 +50,8 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		assertNotEquals(firstOrtho().value(), secondOrtho().value());
 		assertNotEquals(firstOrtho().value(), firstAndSecond().value());
 		assertNotEquals(secondOrtho().value(), firstAndSecond().value());
+		assertThat(OBJ_1, lessThan(OBJ_2));
+		assertThat(OBJ_2, lessThan(OBJ_3));
 	}
 
 	@Test
@@ -214,6 +213,20 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 
 		firstOrtho().toArray(null);
 	}
+	
+	@Test
+	public void toArrayGeneratesCorrectArray() {
+		Object [] value = firstAndSecond().toArray();
+		Arrays.sort(value);
+		assertTrue(Arrays.equals(new String [] {OBJ_1, OBJ_2, OBJ_3}, value));
+	}
+	
+	@Test
+	public void toArrayWithArgGeneratesCorrectArray() {
+		String [] value = firstAndSecond().toArray(new String[3]);
+		Arrays.sort(value);
+		assertTrue(Arrays.equals(new String [] {OBJ_1, OBJ_2, OBJ_3}, value));
+	}
 
 	@Test
 	@SuppressFBWarnings(value = { "NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS" })
@@ -353,4 +366,5 @@ public abstract class CRDTSetTest<S extends Set<String>, R extends CRDTSet<Strin
 		
 		assertEquals(1, set.size());
 	}
+	
 }

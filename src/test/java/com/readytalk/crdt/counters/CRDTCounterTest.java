@@ -5,18 +5,13 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Assume;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.readytalk.crdt.CRDTTest;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public abstract class CRDTCounterTest<S extends Number, R extends CRDTCounter<S, R>> extends CRDTTest<S, R> {
-	
-	@Rule
-	public final ExpectedException thrown = ExpectedException.none();
 	
 	@Test
 	public void firstOrthoCounterNonZero() {
