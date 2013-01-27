@@ -21,8 +21,8 @@ Future Work
 
 Roughly in order:
 
-* Better [Jackson](http://jackson.codehaus.org) use and integration. 
-* Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.
+* Better [Jackson](http://jackson.codehaus.org) use and integration.
+* Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.  There are some [challenges here](http://stackoverflow.com/questions/14004854/circular-generics-with-jackson) that I am trying to find a clean solution for. 
 * Tools for specifically working with Riak. 
 * Integration tests.
 * Some form of versioning for (de)serialization purposes.
