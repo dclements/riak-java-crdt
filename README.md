@@ -25,6 +25,7 @@ Roughly in order:
 * Removing the self-serialization aspects (or at least make them optional) to better integrate with available tools for working with annotated objects.  There are some [challenges here](http://stackoverflow.com/questions/14004854/circular-generics-with-jackson) that I am trying to find a clean solution for. 
 * Tools for specifically working with Riak. 
 * Integration tests.
+* Full, eventual transition to Java 7.
 * Some form of versioning for (de)serialization purposes.
 * Have the counters support other Number types.
 * Guice modules with the bindings for convenience.
