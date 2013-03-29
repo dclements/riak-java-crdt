@@ -4,11 +4,7 @@
 <!--
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
-<!--
-    Checkstyle-Configuration: riak-crdt-checks
-    Description: 
-Checks for the riak-crdt project. 
--->
+
 <module name="Checker">
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
