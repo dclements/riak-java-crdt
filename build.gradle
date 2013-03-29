@@ -32,10 +32,10 @@ dependencies {
     ['com.google.code.findbugs:jsr305:2.0.1'],
     ['com.google.code.findbugs:annotations:2.0.1'],
     ['com.basho.riak:riak-client:1.0.6'],
-    ['com.google.guava:guava:14.0'],
-    ['com.fasterxml.jackson.core:jackson-core:2.1.3'],
-    ['com.fasterxml.jackson.core:jackson-databind:2.1.3'],
-    ['com.fasterxml.jackson.core:jackson-annotations:2.1.2'],
+    ['com.google.guava:guava:14.0.1'],
+    ['com.fasterxml.jackson.core:jackson-core:2.1.4'],
+    ['com.fasterxml.jackson.core:jackson-databind:2.1.4'],
+    ['com.fasterxml.jackson.core:jackson-annotations:2.1.4'],
     ['javax.inject:javax.inject:1'],
   )
   
@@ -67,7 +67,7 @@ javadoc {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '1.5-rc-1'
+  gradleVersion = '1.5'
 }
 
 test {
